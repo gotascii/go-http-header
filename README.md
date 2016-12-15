@@ -8,7 +8,7 @@ http-header is Go library for populating HTTP headers based on struct fields.
 ## Usage ##
 
 ```go
-import "github.com/google/go-http-header/header"
+import "github.com/gotascii/go-http-header/header"
 ```
 
 go-http-header is designed to assist in scenarios where you want to populate an
