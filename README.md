@@ -12,9 +12,9 @@ import "github.com/gotascii/go-http-header/header"
 ```
 
 go-http-header is designed to assist in scenarios where you want to populate an
-[`http.Header`]() using a struct that represents the header fields. You might do
+[`http.Header`]() using a struct that represents header fields. You might do
 this to enforce the type safety of your parameters, for example, as is done in
-the [go-baremetal-sdk][] library.
+the [baremetal-sdk-go][] library.
 
 The header package exports two functions: `LoadStruct()` and `NewFromStruct()`.
 
