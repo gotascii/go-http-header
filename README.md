@@ -2,7 +2,7 @@
 
 [![Build Status](https://drone.io/github.com/gotascii/go-http-header/status.png)](https://drone.io/github.com/gotascii/go-http-header/latest)
 
-http-header is Go library for populating HTTP headers based on struct fields.
+go-http-header is Go library for populating HTTP headers based on struct fields.
 
 It is based entirely off of
 [go-querystring](https://github.com/google/go-querystring) but loads values into
