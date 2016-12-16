@@ -32,7 +32,7 @@ opt := Options{ "6d82cbb050ddc7fa9cbb659014546e59", "my-custom-token" }
 req, _ := http.NewRequest(http.MethodGet, url, nil)
 header.LoadStruct(&req.Header, opts)
 
-// Alternatively, generate a new Header:
+// Alternatively, generate a new Header
 req.Header = header.NewFromStruct(opts)
 ```
 
