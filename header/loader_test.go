@@ -131,36 +131,28 @@ type F struct {
 	e
 }
 
-// func TestNewFromStruct_embeddedStructs(t *testing.T) {
-// 	tests := []struct {
-// 		in   interface{}
-// 		want http.Header
-// 	}{
-// 		{
-// 			A{B{C: "foo"}},
-// 			http.Header{"C": {"foo"}},
-// 		},
-// 		{
-// 			D{B: B{C: "bar"}, C: "foo"},
-// 			http.Header{"C": {"foo", "bar"}},
-// 		},
-// 		{
-// 			F{e{B: B{C: "bar"}, C: "foo"}}, // With unexported embed
-// 			http.Header{"C": {"foo", "bar"}},
-// 		},
-// 	}
+func TestNewFromStruct_embeddedStructs(t *testing.T) {
+	tests := []struct {
+		in   interface{}
+		want http.Header
+	}{
+		{
+			A{B{C: "foo"}},
+			http.Header{"C": {"foo"}},
+		},
+	}
 
-// 	for i, tt := range tests {
-// 		v, err := NewFromStruct(tt.in)
-// 		if err != nil {
-// 			t.Errorf("%d. NewFromStruct(%q) returned error: %v", i, tt.in, err)
-// 		}
+	for i, tt := range tests {
+		v, err := NewFromStruct(tt.in)
+		if err != nil {
+			t.Errorf("%d. NewFromStruct(%q) returned error: %v", i, tt.in, err)
+		}
 
-// 		if !reflect.DeepEqual(tt.want, v) {
-// 			t.Errorf("%d. NewFromStruct(%q) returned %v, want %v", i, tt.in, v, tt.want)
-// 		}
-// 	}
-// }
+		if !reflect.DeepEqual(tt.want, v) {
+			t.Errorf("%d. NewFromStruct(%q) returned %v, want %v", i, tt.in, v, tt.want)
+		}
+	}
+}
 
 func TestNewFromStruct_invalidInput(t *testing.T) {
 	_, err := NewFromStruct("")
@@ -168,49 +160,6 @@ func TestNewFromStruct_invalidInput(t *testing.T) {
 		t.Errorf("expected NewFromStruct() to return an error on invalid input")
 	}
 }
-
-// type EncodedArgs []string
-
-// func (m EncodedArgs) EncodeNewFromStruct(key string, v *http.Header) error {
-// 	for i, arg := range m {
-// 		v.Set(fmt.Sprintf("%s.%d", key, i), arg)
-// 	}
-// 	return nil
-// }
-
-// func TestNewFromStruct_Marshaler(t *testing.T) {
-// 	s := struct {
-// 		Args EncodedArgs `header:"arg"`
-// 	}{[]string{"a", "b", "c"}}
-// 	v, err := NewFromStruct(s)
-// 	if err != nil {
-// 		t.Errorf("NewFromStruct(%q) returned error: %v", s, err)
-// 	}
-
-// 	want := http.Header{
-// 		"arg.0": {"a"},
-// 		"arg.1": {"b"},
-// 		"arg.2": {"c"},
-// 	}
-// 	if !reflect.DeepEqual(want, v) {
-// 		t.Errorf("NewFromStruct(%q) returned %v, want %v", s, v, want)
-// 	}
-// }
-
-// func TestNewFromStruct_MarshalerWithNilPointer(t *testing.T) {
-// 	s := struct {
-// 		Args *EncodedArgs `header:"arg"`
-// 	}{}
-// 	v, err := NewFromStruct(s)
-// 	if err != nil {
-// 		t.Errorf("NewFromStruct(%q) returned error: %v", s, err)
-// 	}
-
-// 	want := http.Header{}
-// 	if !reflect.DeepEqual(want, v) {
-// 		t.Errorf("NewFromStruct(%q) returned %v, want %v", s, v, want)
-// 	}
-// }
 
 func TestTagParsing(t *testing.T) {
 	name, opts := parseTag("field,foobar,foo")

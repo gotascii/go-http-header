@@ -90,30 +90,37 @@ var timeType = reflect.TypeOf(time.Time{})
 // unpredictable behavior.
 func NewFromStruct(v interface{}) (http.Header, error) {
 	header := make(http.Header)
+	if err := LoadStruct(&header, v); err != nil {
+		return nil, err
+	}
+	return header, nil
+}
+
+func LoadStruct(header *http.Header, v interface{}) error {
 	val := reflect.ValueOf(v)
 	for val.Kind() == reflect.Ptr {
 		if val.IsNil() {
-			return header, nil
+			return nil
 		}
 		val = val.Elem()
 	}
 
 	if v == nil {
-		return header, nil
+		return nil
 	}
 
 	if val.Kind() != reflect.Struct {
-		return nil, fmt.Errorf("header: NewFromStruct() expects struct input. Got %v", val.Kind())
+		return fmt.Errorf("header: NewFromStruct() expects struct input. Got %v", val.Kind())
 	}
 
 	err := reflectValue(header, val)
-	return header, err
+	return err
 }
 
 // reflectValue populates the header field from the struct fields in val.
 // Embedded structs are followed recursively (using the rules defined in the
 // Values function documentation) breadth-first.
-func reflectValue(header http.Header, val reflect.Value) error {
+func reflectValue(header *http.Header, val reflect.Value) error {
 	var embedded []reflect.Value
 
 	typ := val.Type()
