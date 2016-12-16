@@ -9,7 +9,7 @@ It is based entirely off of
 [`http.Header`]() instead of [`url.Values`]() and also removes some features that do not
 apply to HTTP headers.
 
-**Documentation:** <http://godoc.org/github.com/google/go-querystring/query> 
+**Documentation:** <http://godoc.org/github.com/gotascii/go-http-header/header> 
 
 ## Usage ##
 
